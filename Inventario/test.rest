@@ -1,0 +1,11 @@
+
+###
+POST /api/categoria/ HTTP/1.1
+Host: 127.0.0.1:8080
+Authorization: Token e9ce41ed32834428417e7501dce5afdb03e25459
+Content-Type: application/json
+
+{
+    "nombre": "Bebida",
+    "descripcion": "fresca"
+}
