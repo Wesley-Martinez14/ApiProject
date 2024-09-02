@@ -61,7 +61,8 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'SistemaInventario.urls'
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:8082", 
+    "http://localhost:8082",
+    "http://localhost:3002", 
 ]
 
 REST_FRAMEWORK = {

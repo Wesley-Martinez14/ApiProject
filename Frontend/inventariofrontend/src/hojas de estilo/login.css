@@ -1,0 +1,14 @@
+.contenedor-login-principal{
+    background: white;
+    display: flex;
+    flex-direction: column;
+    padding: 50px;
+    gap: 30px;
+    border-radius: 25px 0px;
+}
+
+.campos-login input{
+    display: flex;
+    border: 2px solid aquamarine;
+}
+
