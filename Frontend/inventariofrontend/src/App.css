@@ -16,7 +16,5 @@ a{
 }
 
 .contenedor-principal-cuerpo{
-  display: flex;
-  justify-content: center;
-  padding: 100px;
+  padding-top: 30px;
 }

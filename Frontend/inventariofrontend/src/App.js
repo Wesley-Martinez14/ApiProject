@@ -2,6 +2,7 @@ import {useEffect } from 'react';
 import './App.css';
 import Login from './vistas/login';
 import {Route, Routes, Navigate } from 'react-router-dom';
+import Cuerpo from './vistas/cuerpo';
 
 import React, {useState} from 'react';
 
@@ -11,10 +12,11 @@ function App() {
     return localStorage.getItem('token') !== null;
   });
 
+  const token = localStorage.getItem('token');
+  
   useEffect(() => {
-    const token = localStorage.getItem('token');
     setIsAuthenticated(token !== null);
-  }, []);
+  }, [token]);
   
   const handleLogin = () => {
     setIsAuthenticated(true);
@@ -24,6 +26,7 @@ function App() {
     localStorage.removeItem('token');
     setIsAuthenticated(false); 
   };
+
   return (
 
     <div className="App">
@@ -45,9 +48,10 @@ function App() {
         </div>
       </div>
       <div className='contenedor-principal-cuerpo'>
+        {isAuthenticated && <Cuerpo token={token} />}
       <Routes>
             {isAuthenticated ? (
-              <Route path="/" />
+              <Route path="/*" />
             ) : (
               <Route path="/login" element={<Login onLogin={handleLogin} />} />
             )}
