@@ -1,8 +1,8 @@
 import {useEffect } from 'react';
 import './App.css';
-import Login from './vistas/login';
+import Login from './componentes/login';
 import {Route, Routes, Navigate } from 'react-router-dom';
-import Cuerpo from './vistas/cuerpo';
+import Cuerpo from './componentes/cuerpo';
 
 import React, {useState} from 'react';
 

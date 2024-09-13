@@ -8,7 +8,7 @@ export default function Categoria({ token }) {
   const [descripcion, setDescripcion] = useState('');
   const [editandoCategoria, setEditandoCategoria] = useState(null); 
   const [detallesCategoria, setDetallesCategoria] = useState(null); 
-  const [modoVista, setModoVista] = useState('listar'); // "listar", "crear", "editar", "detalles"
+  const [modoVista, setModoVista] = useState('listar'); 
 
   useEffect(() => {
     if (token && modoVista === 'listar') {
@@ -58,7 +58,7 @@ export default function Categoria({ token }) {
       }
       setNombre('');
       setDescripcion('');
-      setModoVista('listar'); // Volver al listado tras crear/editar
+      setModoVista('listar');
     })
     .catch(error => console.error('Error al crear/editar categoría:', error));
   };
