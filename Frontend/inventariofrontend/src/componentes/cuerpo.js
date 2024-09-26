@@ -6,6 +6,7 @@ import Producto from './producto';
 import Cliente from './cliente';
 import Venta from './venta';
 import VentaItem from './ventaItem';
+import InventarioAjuste from './invAjuste';
 import '../hojas de estilo/cuerpo-nav.css'
 
 function Cuerpo({token}){
@@ -34,6 +35,9 @@ function Cuerpo({token}){
                 <li>
                     <Link className='nav-link' to="/ventaitem">Items de las ventas</Link>
                 </li>
+                <li>
+                    <Link className='nav-link' to="/invAjuste">Ajuste del inventario</Link>
+                </li>
             </ul>
         </nav>
         <div className='cuerpo-nav'>
@@ -45,6 +49,7 @@ function Cuerpo({token}){
                 <Route path='/cliente' element={<Cliente token={token} />} />
                 <Route path='/venta' element={<Venta token={token} />} />
                 <Route path='/ventaitem' element={<VentaItem token={token} />} />
+                <Route path='/invAjuste' element={<InventarioAjuste token={token} />} />
             </Routes>
         </div>
     </div>
