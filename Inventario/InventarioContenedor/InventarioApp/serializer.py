@@ -36,10 +36,16 @@ class ClienteSerializer(serializers.ModelSerializer):
 class VentaItemSerializer(serializers.ModelSerializer):
     producto = ProductoSerializer(read_only=True)
     producto_id = serializers.PrimaryKeyRelatedField(queryset=Producto.objects.all(), source='producto', write_only=True)
+    venta = serializers.StringRelatedField(read_only=True)
+    venta_id = serializers.PrimaryKeyRelatedField(queryset=Venta.objects.all(), source='venta', write_only=True)
+    venta_fecha = serializers.DateTimeField(source='venta.fecha', format='%Y-%m-%d', read_only=True)  # Definir el formato
 
     class Meta:
         model = VentaItem
-        fields = ['id', 'venta', 'producto', 'producto_id', 'cantidad', 'precio']
+        fields = ['id', 'venta', 'venta_id', 'venta_fecha', 'producto', 'producto_id', 'cantidad', 'precio']
+
+
+
 
 
 class VentaSerializer(serializers.ModelSerializer):

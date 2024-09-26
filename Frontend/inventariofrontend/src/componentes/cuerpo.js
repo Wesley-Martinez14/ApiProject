@@ -5,6 +5,7 @@ import Suplidor from './suplidor';
 import Producto from './producto';
 import Cliente from './cliente';
 import Venta from './venta';
+import VentaItem from './ventaItem';
 import '../hojas de estilo/cuerpo-nav.css'
 
 function Cuerpo({token}){
@@ -30,6 +31,9 @@ function Cuerpo({token}){
                 <li>
                     <Link className='nav-link' to="/venta">Ventas</Link>
                 </li>
+                <li>
+                    <Link className='nav-link' to="/ventaitem">Items de las ventas</Link>
+                </li>
             </ul>
         </nav>
         <div className='cuerpo-nav'>
@@ -40,6 +44,7 @@ function Cuerpo({token}){
                 <Route path='/producto' element={<Producto token={token} />} />
                 <Route path='/cliente' element={<Cliente token={token} />} />
                 <Route path='/venta' element={<Venta token={token} />} />
+                <Route path='/ventaitem' element={<VentaItem token={token} />} />
             </Routes>
         </div>
     </div>
