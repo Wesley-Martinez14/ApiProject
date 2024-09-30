@@ -142,7 +142,7 @@ export default function VentaItem({ token }) {
             <thead>
               <tr>
                 <th>Cantidad</th>
-                <th>Venta (ID - Fecha)</th>
+                <th>Venta (Cliente - Fecha)</th>
                 <th>Producto</th>
                 <th>Precio</th>
                 <th>Acciones</th>
