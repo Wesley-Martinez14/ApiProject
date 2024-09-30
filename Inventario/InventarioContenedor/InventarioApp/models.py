@@ -46,7 +46,7 @@ class Venta(models.Model):
     monto_total = models.DecimalField(max_digits=10, decimal_places=2)
 
     def __str__(self):
-        return f"Venta {self.id} - {self.fecha}"
+        return f"{self.cliente} - {self.fecha}"
     
 class VentaItem(models.Model):
     venta = models.ForeignKey(Venta, related_name='items', on_delete=models.CASCADE)

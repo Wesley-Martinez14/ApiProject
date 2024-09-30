@@ -226,7 +226,7 @@ export default function VentaItem({ token }) {
           <p><strong>Cantidad:</strong> {detallesVentaItem.cantidad}</p>
           <p><strong>Venta:</strong> {detallesVentaItem.venta}</p>
           <p><strong>Producto:</strong> {detallesVentaItem.producto.nombre}</p>
-          <p><strong>Precio:</strong> {detallesVentaItem.precio}</p> {/* Mostrar precio en detalles */}
+          <p><strong>Precio:</strong> {detallesVentaItem.precio}</p> 
           <button className="btn btn-secondary" onClick={() => setModoVista('listar')}>
             Volver
           </button>
