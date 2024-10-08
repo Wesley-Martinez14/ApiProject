@@ -3,7 +3,7 @@ import '../hojas de estilo/crud.css';
 
 export default function InventarioAjuste({ token }) {
   const [inventarioAjustes, setInventarioAjustes] = useState([]);
-  const [productos, setProductos] = useState([]); // Para la relación con Producto
+  const [productos, setProductos] = useState([]); 
   const [loading, setLoading] = useState(true);
   const [cantidad, setCantidad] = useState('');
   const [productoId, setProductoId] = useState('');
