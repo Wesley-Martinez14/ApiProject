@@ -249,9 +249,7 @@ export default function Producto({ token }) {
           <p><strong>Precio:</strong> {detallesProducto.precio}</p>
           <p><strong>Cantidad Disponible:</strong> {detallesProducto.cantidad_disponible}</p>
           <p><strong>Descripción:</strong> {detallesProducto.descripcion}</p>
-          <button className="btn btn-secondary" onClick={() => setModoVista('listar')}>
-            Volver
-          </button>
+          <button className="btn btn-secondary" onClick={() => setModoVista('listar')}>Volver</button>
         </>
       )}
     </>
