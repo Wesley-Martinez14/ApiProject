@@ -12,6 +12,8 @@ export default function Cliente({ token }) {
   const [editandoCliente, setEditandoCliente] = useState(null); 
   const [detallesCliente, setDetallesCliente] = useState(null); 
   const [modoVista, setModoVista] = useState('listar'); 
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 4;
 
   useEffect(() => {
     if (token && modoVista === 'listar') {
@@ -97,6 +99,21 @@ export default function Cliente({ token }) {
     setDetallesCliente(cliente);
     setModoVista('detalles');
   };
+  const indexOfLastProduct = currentPage * itemsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - itemsPerPage;
+  const currentCliente = clientes.slice(indexOfFirstProduct, indexOfLastProduct);
+
+  const handleNextPage = () => {
+    if (currentPage < Math.ceil(clientes.length / itemsPerPage)) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const handlePreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
 
   if (loading) {
     return <div>Cargando...</div>;
@@ -119,7 +136,7 @@ export default function Cliente({ token }) {
               </tr>
             </thead>
             <tbody>
-              {clientes.map((cliente) => (
+              {currentCliente.map((cliente) => (
                 <tr key={cliente.id}>
                   <td>{cliente.nombre}</td>
                   <td>{cliente.apellido}</td>
@@ -136,6 +153,15 @@ export default function Cliente({ token }) {
             </tbody>
           </table>
           <button className="btn btn-primary" onClick={() => setModoVista('crear')}>Crear Nuevo Cliente</button>
+          <div className="pagination">
+            <button onClick={handlePreviousPage} disabled={currentPage === 1}>
+              Anterior
+            </button>
+            <span>Página {currentPage}</span>
+            <button onClick={handleNextPage} disabled={currentPage === Math.ceil(clientes.length / itemsPerPage)}>
+              Siguiente
+            </button>
+          </div>
         </>
       )}
 

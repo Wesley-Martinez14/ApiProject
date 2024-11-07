@@ -15,6 +15,8 @@ export default function Producto({ token }) {
   const [editandoProducto, setEditandoProducto] = useState(null); 
   const [detallesProducto, setDetallesProducto] = useState(null); 
   const [modoVista, setModoVista] = useState('listar');
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 4;
 
   useEffect(() => {
     if (token && modoVista === 'listar') {
@@ -135,7 +137,21 @@ export default function Producto({ token }) {
     setModoVista('detalles');
   };
 
-  
+  const indexOfLastProduct = currentPage * itemsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - itemsPerPage;
+  const currentProducts = productos.slice(indexOfFirstProduct, indexOfLastProduct);
+
+  const handleNextPage = () => {
+    if (currentPage < Math.ceil(productos.length / itemsPerPage)) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const handlePreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
 
   if (loading) {
     return <div>Cargando...</div>;
@@ -157,7 +173,7 @@ export default function Producto({ token }) {
               </tr>
             </thead>
             <tbody>
-              {productos.map((producto) => (
+              {currentProducts.map((producto) => (
                 <tr key={producto.id}>
                   <td>{producto.nombre}</td>
                   <td>{producto.categoria.nombre}</td>
@@ -173,6 +189,15 @@ export default function Producto({ token }) {
             </tbody>
           </table>
           <button className="btn btn-primary" onClick={() => setModoVista('crear')}>Crear Nuevo Producto</button>
+          <div className="pagination">
+            <button onClick={handlePreviousPage} disabled={currentPage === 1}>
+              Anterior
+            </button>
+            <span>Página {currentPage}</span>
+            <button onClick={handleNextPage} disabled={currentPage === Math.ceil(productos.length / itemsPerPage)}>
+              Siguiente
+            </button>
+          </div>
         </>
       )}
 
@@ -249,7 +274,9 @@ export default function Producto({ token }) {
           <p><strong>Precio:</strong> {detallesProducto.precio}</p>
           <p><strong>Cantidad Disponible:</strong> {detallesProducto.cantidad_disponible}</p>
           <p><strong>Descripción:</strong> {detallesProducto.descripcion}</p>
-          <button className="btn btn-secondary" onClick={() => setModoVista('listar')}>Volver</button>
+          <button className="btn btn-secondary" onClick={() => setModoVista('listar')}>Volver
+
+          </button>
         </>
       )}
     </>

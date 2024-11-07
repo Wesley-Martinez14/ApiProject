@@ -130,7 +130,6 @@ class PasswordResetRequestView(generics.GenericAPIView):
         uid = urlsafe_base64_encode(force_bytes(user.pk))
         reset_link = f"{settings.FRONTEND_URL}/password-reset/{uid}/{token}/"
         
-        # Send email
         subject = "Password Reset Request"
         message = render_to_string('password_reset_email.html', {
             'reset_link': reset_link,

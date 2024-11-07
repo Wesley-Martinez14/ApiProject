@@ -11,7 +11,8 @@ export default function Venta({token}) {
     const [editandoVenta, setEditandoVenta] = useState(null);
     const [detalleVenta, setDetallesVenta] = useState(null);
     const [loading, setLoading] = useState(true);
-
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 4;
 
     useEffect(() => {
         if(token && modovista === 'listar'){
@@ -108,6 +109,22 @@ export default function Venta({token}) {
         setModoVista('detalles');
     };
 
+    const indexOfLastProduct = currentPage * itemsPerPage;
+    const indexOfFirstProduct = indexOfLastProduct - itemsPerPage;
+    const currentVenta = venta.slice(indexOfFirstProduct, indexOfLastProduct);
+
+    const handleNextPage = () => {
+      if (currentPage < Math.ceil(venta.length / itemsPerPage)) {
+        setCurrentPage(currentPage + 1);
+      }
+    };
+
+    const handlePreviousPage = () => {
+      if (currentPage > 1) {
+        setCurrentPage(currentPage - 1);
+      }
+    };
+
     if(loading) {
         return <div>Cargando...</div>
     }
@@ -127,7 +144,7 @@ export default function Venta({token}) {
                     </tr>
                   </thead>
                   <tbody>
-                    {venta.map((venta) => (
+                    {currentVenta.map((venta) => (
                       <tr key={venta.id}>
                         <td>{venta.cliente.nombre}</td>
                         <td>{venta.fecha}</td>
@@ -142,6 +159,15 @@ export default function Venta({token}) {
                   </tbody>
                 </table>
                 <button className="btn btn-primary" onClick={() => setModoVista('crear')}>Crear Nueva Venta</button>
+                <div className="pagination">
+                  <button onClick={handlePreviousPage} disabled={currentPage === 1}>
+                    Anterior
+                  </button>
+                  <span>Página {currentPage}</span>
+                  <button onClick={handleNextPage} disabled={currentPage === Math.ceil(venta.length / itemsPerPage)}>
+                    Siguiente
+                  </button>
+                </div>
               </>
             )}
             {(modovista === 'crear' || modovista === 'editar') && (

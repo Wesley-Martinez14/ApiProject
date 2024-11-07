@@ -12,6 +12,8 @@ export default function Suplidor({token}){
     const [editarSuplidor, setEditarSuplidor] = useState(null);
     const [detallesSuplidor, setDetallesSuplidor] = useState(null);
     const [modoVista, setModoVista] = useState('listar');
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 4;
 
     useEffect(() => {
         if(token && modoVista === 'listar'){
@@ -97,9 +99,25 @@ export default function Suplidor({token}){
       setModoVista('detalles');
     };
 
-    if (loading) {
-      return <div>Cargando...</div>;
-    }
+    const indexOfLastProduct = currentPage * itemsPerPage;
+    const indexOfFirstProduct = indexOfLastProduct - itemsPerPage;
+    const currentSuplidor = suplidor.slice(indexOfFirstProduct, indexOfLastProduct);
+
+    const handleNextPage = () => {
+      if (currentPage < Math.ceil(suplidor.length / itemsPerPage)) {
+        setCurrentPage(currentPage + 1);
+      }
+    };
+
+    const handlePreviousPage = () => {
+      if (currentPage > 1) {
+        setCurrentPage(currentPage - 1);
+      }
+    };
+
+      if (loading) {
+        return <div>Cargando...</div>;
+      }
 
     return(
     <>
@@ -116,7 +134,7 @@ export default function Suplidor({token}){
             </tr>
           </thead>
           <tbody>
-            {suplidor.map((suplidor) => (
+            {currentSuplidor.map((suplidor) => (
               <tr key={suplidor.id}>
                 <td>{suplidor.nombre}</td>
                 <td>{suplidor.nombre_contacto}</td>
@@ -131,6 +149,15 @@ export default function Suplidor({token}){
           </tbody>
         </table>
         <button className="btn btn-primary" onClick={() => setModoVista('crear')}>Crear Nueva Suplidor</button>
+        <div className="pagination">
+            <button onClick={handlePreviousPage} disabled={currentPage === 1}>
+              Anterior
+            </button>
+            <span>Página {currentPage}</span>
+            <button onClick={handleNextPage} disabled={currentPage === Math.ceil(suplidor.length / itemsPerPage)}>
+              Siguiente
+            </button>
+        </div>
       </>
       )}
 

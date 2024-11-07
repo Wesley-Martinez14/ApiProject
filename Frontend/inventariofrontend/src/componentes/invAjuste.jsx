@@ -12,6 +12,8 @@ export default function InventarioAjuste({ token }) {
   const [editandoAjuste, setEditandoAjuste] = useState(null);
   const [detallesAjuste, setDetallesAjuste] = useState(null);
   const [modoVista, setModoVista] = useState('listar');
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 4;
 
   useEffect(() => {
     if (token && modoVista === 'listar') {
@@ -113,6 +115,21 @@ export default function InventarioAjuste({ token }) {
     setDetallesAjuste(ajuste);
     setModoVista('detalles');
   };
+  const indexOfLastProduct = currentPage * itemsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - itemsPerPage;
+  const currentAjustes = inventarioAjustes.slice(indexOfFirstProduct, indexOfLastProduct);
+
+  const handleNextPage = () => {
+    if (currentPage < Math.ceil(inventarioAjustes.length / itemsPerPage)) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+  
+  const handlePreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
 
   if (loading) {
     return <div>Cargando...</div>;
@@ -134,7 +151,7 @@ export default function InventarioAjuste({ token }) {
               </tr>
             </thead>
             <tbody>
-              {inventarioAjustes.map((ajuste) => (
+              {currentAjustes.map((ajuste) => (
                 <tr key={ajuste.id}>
                   <td>{ajuste.tipo_proceso}</td>
                   <td>{ajuste.producto.nombre}</td>
@@ -150,6 +167,15 @@ export default function InventarioAjuste({ token }) {
             </tbody>
           </table>
           <button className="btn btn-primary" onClick={() => setModoVista('crear')}>Crear Nuevo Ajuste</button>
+          <div className="pagination">
+            <button onClick={handlePreviousPage} disabled={currentPage === 1}>
+              Anterior
+            </button>
+            <span>Página {currentPage}</span>
+            <button onClick={handleNextPage} disabled={currentPage === Math.ceil(inventarioAjustes.length / itemsPerPage)}>
+              Siguiente
+            </button>
+          </div>
         </>
       )}
 

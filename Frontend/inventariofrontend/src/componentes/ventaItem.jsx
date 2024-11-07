@@ -13,6 +13,8 @@ export default function VentaItem({ token }) {
   const [editandoVentaItem, setEditandoVentaItem] = useState(null); 
   const [detallesVentaItem, setDetallesVentaItem] = useState(null); 
   const [modoVista, setModoVista] = useState('listar');
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 4;
 
   useEffect(() => {
     if (token && modoVista === 'listar') {
@@ -129,6 +131,22 @@ export default function VentaItem({ token }) {
     setModoVista('detalles');
   };
 
+  const indexOfLastProduct = currentPage * itemsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - itemsPerPage;
+  const currentItems = ventaItems.slice(indexOfFirstProduct, indexOfLastProduct);
+
+  const handleNextPage = () => {
+    if (currentPage < Math.ceil(ventaItems.length / itemsPerPage)) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const handlePreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
   if (loading) {
     return <div>Cargando...</div>;
   }
@@ -149,7 +167,7 @@ export default function VentaItem({ token }) {
               </tr>
             </thead>
             <tbody>
-              {ventaItems.map((ventaItem) => (
+              {currentItems.map((ventaItem) => (
                 <tr key={ventaItem.id}>
                   <td>{ventaItem.cantidad}</td>
                   <td>{ventaItem.venta}</td>
@@ -165,6 +183,15 @@ export default function VentaItem({ token }) {
             </tbody>
           </table>
           <button className="btn btn-primary" onClick={() => setModoVista('crear')}>Crear Nuevo VentaItem</button>
+          <div className="pagination">
+            <button onClick={handlePreviousPage} disabled={currentPage === 1}>
+              Anterior
+            </button>
+            <span>Página {currentPage}</span>
+            <button onClick={handleNextPage} disabled={currentPage === Math.ceil(ventaItems.length / itemsPerPage)}>
+              Siguiente
+            </button>
+          </div>
         </>
       )}
 

@@ -9,6 +9,8 @@ export default function Categoria({ token }) {
   const [editandoCategoria, setEditandoCategoria] = useState(null); 
   const [detallesCategoria, setDetallesCategoria] = useState(null); 
   const [modoVista, setModoVista] = useState('listar'); 
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 4;
 
   useEffect(() => {
     if (token && modoVista === 'listar') {
@@ -89,6 +91,22 @@ export default function Categoria({ token }) {
     setModoVista('detalles');
   };
 
+  const indexOfLastProduct = currentPage * itemsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - itemsPerPage;
+  const currentCategory = categorias.slice(indexOfFirstProduct, indexOfLastProduct);
+
+  const handleNextPage = () => {
+    if (currentPage < Math.ceil(categorias.length / itemsPerPage)) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+  
+  const handlePreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
   if (loading) {
     return <div>Cargando...</div>;
   }
@@ -107,7 +125,7 @@ export default function Categoria({ token }) {
               </tr>
             </thead>
             <tbody>
-              {categorias.map((categoria) => (
+              {currentCategory.map((categoria) => (
                 <tr key={categoria.id}>
                   <td>{categoria.nombre}</td>
                   <td>{categoria.descripcion}</td>
@@ -121,6 +139,15 @@ export default function Categoria({ token }) {
             </tbody>
           </table>
           <button className="btn btn-primary" onClick={() => setModoVista('crear')}>Crear Nueva Categoría</button>
+          <div className="pagination">
+            <button onClick={handlePreviousPage} disabled={currentPage === 1}>
+              Anterior
+            </button>
+            <span>Página {currentPage}</span>
+            <button onClick={handleNextPage} disabled={currentPage === Math.ceil(categorias.length / itemsPerPage)}>
+              Siguiente
+            </button>
+          </div>
         </>
       )}
 
